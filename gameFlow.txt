@@ -1,0 +1,17 @@
+Game Flow:
+Initialize:
+	Cards Generated and assigned to players
+	Select first player
+
+GameLoop:
+	while(!boardFull){
+		Player selects card
+		Player places card on board
+		Card compares values to surrounding values and responds
+			Base Rule: 
+				if (attackingCardVal > defendingCardVal){
+					captured(activePlayer, defendingCard);
+				}
+	}
+
+	display winner

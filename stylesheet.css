@@ -1,0 +1,30 @@
+#board{
+	padding: 10px;
+}
+
+#activeHand{
+	padding-top: 20px;
+}
+
+.cell{
+	background-color: blue;
+	width: 33.3%;
+	float: left;
+	padding: 40px;
+}
+
+.hand{
+	background: yellow;
+	border: solid;
+}
+
+.card{
+	text-align: center;
+}
+
+#board > .container{
+	border-right: solid;
+	border-bottom: solid;
+	text-align: center;
+}
+
