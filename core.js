@@ -1,20 +1,208 @@
 var player = {},
 	board = {
-		topLeft: "",
-		topCenter: "",
-		topRight: "",
-		midLeft: "",
-		midCenter: "",
-		midRight: "",
-		botLeft: "",
-		botCenter: "",
-		botRight: "",
-		emptySpaces: 9
+		topLeft: {
+			up: "",
+			left: "",
+			right: "",
+			down: ""
+		},
+		topCenter: {
+			up: "",
+			left: "",
+			right: "",
+			down: ""
+		},
+		topRight: {
+			up: "",
+			left: "",
+			right: "",
+			down: ""
+		},
+		midLeft: {
+			up: "",
+			left: "",
+			right: "",
+			down: ""
+		},
+		midCenter: {
+			up: "",
+			left: "",
+			right: "",
+			down: ""
+		},
+		midRight: {
+			up: "",
+			left: "",
+			right: "",
+			down: ""
+		},
+		botLeft: {
+			up: "",
+			left: "",
+			right: "",
+			down: ""
+		},
+		botCenter: {
+			up: "",
+			left: "",
+			right: "",
+			down: ""
+		},
+		botRight: {
+			up: "",
+			left: "",
+			right: "",
+			down: ""
+		},
+		emptySpaces: 9,
+		
+		getCell: function(cell){
+			switch(cell){
+				case 1:
+					return this.topLeft;
+				case 2:
+					return this.topCenter;
+				case 3:
+					return this.topRight;
+				case 4:
+					return this.midLeft;
+				case 5:
+					return this.midCenter;
+				case 6:
+					return this.midRight;
+				case 7:
+					return this.botLeft;
+				case 8:
+					return this.botCenter;
+				case 9:
+					return this.botRight;										
+			}
+		},
+
+		setCell: function(cell, up, left, right, down){
+			switch(cell){
+				case 1:
+					this.topLeft.up = up;
+					this.topLeft.left = left;
+					this.topLeft.right = right;
+					this.topLeft.down = down;
+
+					document.getElementById('cell1_up').innerHTML = board.topLeft.up;
+					document.getElementById('cell1_left').innerHTML = board.topLeft.left;
+					document.getElementById('cell1_right').innerHTML = board.topLeft.right;
+					document.getElementById('cell1_down').innerHTML = board.topLeft.down;
+					break;
+
+				case 2:
+					this.topCenter.up = up;
+					this.topCenter.left = left;
+					this.topCenter.right = right;
+					this.topCenter.down = down;
+
+					document.getElementById('cell2_up').innerHTML = board.topCenter.up;
+					document.getElementById('cell2_left').innerHTML = board.topCenter.left;
+					document.getElementById('cell2_right').innerHTML = board.topCenter.right;
+					document.getElementById('cell2_down').innerHTML = board.topCenter.down;
+					break;
+
+				case 3:
+					this.topRight.up = up;
+					this.topRight.left = left;
+					this.topRight.right = right;
+					this.topRight.down = down;
+					
+					document.getElementById('cell3_up').innerHTML = board.topRight.up;
+					document.getElementById('cell3_left').innerHTML = board.topRight.left;
+					document.getElementById('cell3_right').innerHTML = board.topRight.right;
+					document.getElementById('cell3_down').innerHTML = board.topRight.down;
+					break;
+
+				case 4:
+					this.midLeft.up = up;
+					this.midLeft.left = left;
+					this.midLeft.right = right;
+					this.midLeft.down = down;
+					
+					document.getElementById('cell4_up').innerHTML = board.midLeft.up;
+					document.getElementById('cell4_left').innerHTML = board.midLeft.left;
+					document.getElementById('cell4_right').innerHTML = board.midLeft.right;
+					document.getElementById('cell4_down').innerHTML = board.midLeft.down;
+					break;
+
+				case 5:
+					this.midCenter.up = up;
+					this.midCenter.left = left;
+					this.midCenter.right = right;
+					this.midCenter.down = down;
+
+					document.getElementById('cell5_up').innerHTML = board.midCenter.up;
+					document.getElementById('cell5_left').innerHTML = board.midCenter.left;
+					document.getElementById('cell5_right').innerHTML = board.midCenter.right;
+					document.getElementById('cell5_down').innerHTML = board.midCenter.down;
+					break;
+				
+				case 6:
+					this.midRight.up = up;
+					this.midRight.left = left;
+					this.midRight.right = right;
+					this.midRight.down = down;
+
+					document.getElementById('cell6_up').innerHTML = board.midRight.up;
+					document.getElementById('cell6_left').innerHTML = board.midRight.left;
+					document.getElementById('cell6_right').innerHTML = board.midRight.right;
+					document.getElementById('cell6_down').innerHTML = board.midRight.down;
+					break;
+
+				case 7:
+					this.botLeft.up = up;
+					this.botLeft.left = left;
+					this.botLeft.right = right;
+					this.botLeft.down = down;
+
+					document.getElementById('cell7_up').innerHTML = board.botLeft.up;
+					document.getElementById('cell7_left').innerHTML = board.botLeft.left;
+					document.getElementById('cell7_right').innerHTML = board.botLeft.right;
+					document.getElementById('cell7_down').innerHTML = board.botLeft.down;
+					break;
+
+				case 8:
+					this.botCenter.up = up;
+					this.botCenter.left = left;
+					this.botCenter.right = right;
+					this.botCenter.down = down;
+
+					document.getElementById('cell8_up').innerHTML = board.botCenter.up;
+					document.getElementById('cell8_left').innerHTML = board.botCenter.left;
+					document.getElementById('cell8_right').innerHTML = board.botCenter.right;
+					document.getElementById('cell8_down').innerHTML = board.botCenter.down;
+					break;
+
+				case 9:
+					this.botRight.up = up;
+					this.botRight.left = left;
+					this.botRight.right = right;
+					this.botRight.down = down;
+
+					document.getElementById('cell9_up').innerHTML = board.botRight.up;
+					document.getElementById('cell9_left').innerHTML = board.botRight.left;
+					document.getElementById('cell9_right').innerHTML = board.botRight.right;
+					document.getElementById('cell9_down').innerHTML = board.botRight.down;
+					break;
+
+			}
+		}
+
+
 	},
 	c = [],
 	turnEven = true,
 	cardSelected,
 	cellSelected;
+
+
+// function renderCell(id, up, left, right, down){
+// 	document.getElementById(id).innerHTML = board.topLeft.up;
+// }
 
 
 //Game flow
@@ -30,8 +218,6 @@ assignCards();
 	turnEven = !turnEven;
 // }
 outcome(player[0].capturedCards, player[1].capturedCards);
-
-
 
 
 //Generate players
