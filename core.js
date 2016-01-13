@@ -79,7 +79,13 @@ var player = {},
 			}
 		},
 
-		setCell: function(cell, up, left, right, down){
+		setCell: function(cell, card){
+			console.log(card);
+			var up = card.up,
+				left = card.left,
+				right = card.right,
+				down = card.down;
+
 			switch(cell){
 				case 1:
 					this.topLeft.up = up;
@@ -196,27 +202,35 @@ var player = {},
 	},
 	c = [],
 	turnEven = true,
-	cardSelected,
-	cellSelected;
-
-
-// function renderCell(id, up, left, right, down){
-// 	document.getElementById(id).innerHTML = board.topLeft.up;
-// }
-
+	curPlayer,
+	promptCard,
+	promptCell,
+	selectedCard,
+	selectedCell;
 
 //Game flow
 generatePlayers();
 assignCards();
-// while(board.emptySpaces !== 0){
-	var curPlayer = turnEven ? player[0]: player[1];
+while(board.emptySpaces > 0){
+	curPlayer = turnEven ? player[0]: player[1];
 	logHand(curPlayer);
 	renderHand(curPlayer);
-	// var card = prompt("Select your card: ");
-	// var space = prompt("Select board space: ");
-	board.emptySpaces--;
-	turnEven = !turnEven;
-// }
+	promptCard = prompt("Select card 0,1,2,3, or 4");
+	console.log(promptCard);
+	selectedCard = convertPromptedCard(promptCard);
+	promptCell = prompt("Select space 1,2,3,4,5,6,7,8,9");
+	selectedCell = convertPromptedCell(promptCell);
+	// if (typeof(selectedCell) != 'undefined' && typeof(selectedCard) != ''){
+		// console.log(selectedCell);
+		// console.log(selectedCard);
+		board.setCell(selectedCell, selectedCard);
+		board.emptySpaces--;
+		// turnEven = !turnEven;
+	//  selectedCard = undefined;
+	// 	selectedCell = undefined;
+	// }
+		
+}
 outcome(player[0].capturedCards, player[1].capturedCards);
 
 
@@ -281,16 +295,118 @@ function renderHand(playerIndex){
 	}
 }	
 
+function convertPromptedCard(card){
+	console.log(card);
+	switch(card){
+		case '0':
+			selectedCard = c[0];
+			break;
+		case '1':
+			console.log("Case 1");
+			selectedCard = c[1];
+			break;
+		case '2':
+			selectedCard = c[2];
+			break;
+		case '3':
+			selectedCard = c[3];
+			break;
+		case '4':
+			selectedCard = c[4];
+			break;
+		}
+		// console.log(selectedCard);
+		return selectedCard;
+}
+
+function convertPromptedCell(cell){
+	console.log(cell);
+	switch(cell){
+		case "1":
+			selectedCell = 1;
+			break;
+		case "2":
+			selectedCell = 2;
+			break;
+		case "3":
+			selectedCell = 3;
+			break;
+		case "4":
+			selectedCell = 4;
+			break;
+		case "5":
+			selectedCell = 5;
+			break;
+		case "6":
+			selectedCell = 6;
+			break;
+		case "7":
+			selectedCell = 7;
+			break;
+		case "8":
+			selectedCell = 8;
+			break;
+		case "9":
+			selectedCell = 9;
+			break;
+	}
+	return selectedCell;
+}
 //Update selected card
 $('.hand').on('click', function(){
-	cardSelected = this;
-	console.log(cardSelected);
+	switch(this.id){
+		case "card0":
+			selectedCard = c[0];
+			break;
+		case "card1":
+			selectedCard = c[1];
+			break;
+		case "card2":
+			selectedCard = c[2];
+			break;
+		case "card3":
+			selectedCard = c[3];
+			break;
+		case "card4":
+			selectedCard = c[4];
+			break;
+		}
+	console.log(selectedCard);
 });
+
 
 //Update selected card
 $('.cell').on('click', function(){
-	cellSelected = this;
-	console.log(cellSelected);
+	switch(this.id){
+		case "cell1":
+			selectedCell = 1;
+			break;
+		case "cell2":
+			selectedCell = 2;
+			break;
+		case "cell3":
+			selectedCell = 3;
+			break;
+		case "cell4":
+			selectedCell = 4;
+			break;
+		case "cell5":
+			selectedCell = 5;
+			break;
+		case "cell6":
+			selectedCell = 6;
+			break;
+		case "cell7":
+			selectedCell = 7;
+			break;
+		case "cell8":
+			selectedCell = 8;
+			break;
+		case "cell9":
+			selectedCell = 9;
+			break;
+	}
+	console.log(selectedCell);
 });
 
 function updateCell(cell, card){
