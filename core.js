@@ -80,7 +80,6 @@ var player = {},
 		},
 
 		setCell: function(cell, card){
-			console.log(card);
 			var up = card.up,
 				left = card.left,
 				right = card.right,
@@ -211,18 +210,15 @@ var player = {},
 //Game flow
 generatePlayers();
 assignCards();
-while(board.emptySpaces > 0){
+// while(board.emptySpaces > 0){
 	curPlayer = turnEven ? player[0]: player[1];
-	logHand(curPlayer);
 	renderHand(curPlayer);
 	promptCard = prompt("Select card 0,1,2,3, or 4");
-	console.log(promptCard);
-	selectedCard = convertPromptedCard(promptCard);
+	selectedCard = convertPromptedCard(curPlayer, promptCard);
 	promptCell = prompt("Select space 1,2,3,4,5,6,7,8,9");
 	selectedCell = convertPromptedCell(promptCell);
+
 	// if (typeof(selectedCell) != 'undefined' && typeof(selectedCard) != ''){
-		// console.log(selectedCell);
-		// console.log(selectedCard);
 		board.setCell(selectedCell, selectedCard);
 		board.emptySpaces--;
 		// turnEven = !turnEven;
@@ -230,7 +226,7 @@ while(board.emptySpaces > 0){
 	// 	selectedCell = undefined;
 	// }
 		
-}
+// }
 outcome(player[0].capturedCards, player[1].capturedCards);
 
 
@@ -244,7 +240,11 @@ function generatePlayers(){
 	}
 }
 
+//Assign cards to players
 function assignCards(){
+	var randomIndex = getRandom(),
+	duplicateCheck = [];
+
 	//Generate ten cards
 	for (var i=0; i < 10; i++){
 		c[i] = {
@@ -255,9 +255,22 @@ function assignCards(){
 		}
 	}
 
-	//Assign cards to players
-	player[0].deck = assign(c);
-	player[1].deck = c;
+	//Assign to players, draw a random card (repeat if it was previously pulled)
+	for (var j=0; j<2; j++){
+		for (var i=0; i<5; i++){
+			randomIndex = getRandom();
+			while (duplicateCheck.indexOf(randomIndex) > -1){
+				randomIndex = getRandom();
+			}
+				
+			player[j].deck[i] = c[randomIndex];
+			duplicateCheck.push(randomIndex);
+		}
+	}
+}
+
+function getRandom(){
+	return Math.floor(Math.random() * 10);
 }
 
 //Randomly assign cards to a deck
@@ -271,12 +284,6 @@ function assign(cards){
 	return deck;		
 }
 
-function logHand(player){
-	for(var i=0; i < 5; i++){
-		console.log("Card " + i + ": ");
-		renderCard(player, i);
-	}
-}
 
 //Updates values of displayed hand (below board)
 function renderHand(playerIndex){
@@ -288,39 +295,36 @@ function renderHand(playerIndex){
 	];
 
 	for (var i=0; i < 5; i++){
-		document.getElementById(cards[i][0]).innerHTML = playerIndex.deck[i][0].up;
-		document.getElementById(cards[i][2]).innerHTML = playerIndex.deck[i][0].left;
-		document.getElementById(cards[i][3]).innerHTML = playerIndex.deck[i][0].right;
-		document.getElementById(cards[i][1]).innerHTML = playerIndex.deck[i][0].down;
+		document.getElementById(cards[i][0]).innerHTML = playerIndex.deck[i].up;
+		document.getElementById(cards[i][2]).innerHTML = playerIndex.deck[i].left;
+		document.getElementById(cards[i][3]).innerHTML = playerIndex.deck[i].right;
+		document.getElementById(cards[i][1]).innerHTML = playerIndex.deck[i].down;
 	}
 }	
 
-function convertPromptedCard(card){
+function convertPromptedCard(curPlayer, card){
 	console.log(card);
 	switch(card){
 		case '0':
-			selectedCard = c[0];
+			selectedCard = curPlayer.deck[0];
 			break;
 		case '1':
-			console.log("Case 1");
-			selectedCard = c[1];
+			selectedCard = curPlayer.deck[1];
 			break;
 		case '2':
-			selectedCard = c[2];
+			selectedCard = curPlayer.deck[2];
 			break;
 		case '3':
-			selectedCard = c[3];
+			selectedCard = curPlayer.deck[3];
 			break;
 		case '4':
-			selectedCard = c[4];
+			selectedCard = curPlayer.deck[4];
 			break;
 		}
-		// console.log(selectedCard);
 		return selectedCard;
 }
 
 function convertPromptedCell(cell){
-	console.log(cell);
 	switch(cell){
 		case "1":
 			selectedCell = 1;
@@ -371,7 +375,6 @@ $('.hand').on('click', function(){
 			selectedCard = c[4];
 			break;
 		}
-	console.log(selectedCard);
 });
 
 
@@ -406,20 +409,10 @@ $('.cell').on('click', function(){
 			selectedCell = 9;
 			break;
 	}
-	console.log(selectedCell);
 });
 
 function updateCell(cell, card){
 	cell.innerHTML = player[0].deck[0][0].up;
-}
-
-
-$('#test').on('click', function(){
-	console.log($('#board').find('.cell'));
-});
-
-function renderCard(player, index){
-	console.log(player.deck[index][0]);
 }
 
 // TODO: Fix this, it's horrible
