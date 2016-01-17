@@ -54,7 +54,7 @@ var player = {},
 			right: "",
 			down: ""
 		},
-		emptySpaces: 9,
+		emptyCells: 9,
 		
 		getCell: function(cell){
 			switch(cell){
@@ -205,28 +205,52 @@ var player = {},
 	promptCard,
 	promptCell,
 	selectedCard,
-	selectedCell;
+	selectedCell,
+	cardAvailable = false,
+	cellAvailable = false;
+	usedCells = [];
 
 //Game flow
 generatePlayers();
 assignCards();
-// while(board.emptySpaces > 0){
+while(board.emptyCells > 5){
 	curPlayer = turnEven ? player[0]: player[1];
+	cardAvailable = false;
+	cellAvailable = false;
 	renderHand(curPlayer);
-	promptCard = prompt("Select card 0,1,2,3, or 4");
+	
+	//Select card, validate
+	while(!cardAvailable){
+		promptCard = prompt("Select card 0,1,2,3, or 4");
+		if (promptCard >= 0 && promptCard <= 4 && curPlayer.usedCards.indexOf(promptCard) === -1){
+			cardAvailable = true;
+		}
+		else alert("Invalid card selection");
+	}
 	selectedCard = convertPromptedCard(curPlayer, promptCard);
-	promptCell = prompt("Select space 1,2,3,4,5,6,7,8,9");
+	
+	
+	//Select cell, validate
+	while(!cellAvailable){
+		promptCell = prompt("Select cell:\n1, 2, 3\n4, 5, 6,\n7, 8, 9");
+		if (promptCell >= 1 && promptCell <= 9 && usedCells.indexOf(promptCell) === -1){
+			cellAvailable = true;
+			usedCells.push(promptCell);
+		}
+		else alert("Invalid cell selection");
+	}
 	selectedCell = convertPromptedCell(promptCell);
 
 	// if (typeof(selectedCell) != 'undefined' && typeof(selectedCard) != ''){
 		board.setCell(selectedCell, selectedCard);
-		board.emptySpaces--;
-		// turnEven = !turnEven;
+		board.emptyCells--;
+		turnEven = !turnEven;
 	//  selectedCard = undefined;
 	// 	selectedCell = undefined;
 	// }
 		
-// }
+}
+
 outcome(player[0].capturedCards, player[1].capturedCards);
 
 
@@ -235,7 +259,8 @@ function generatePlayers(){
 	for (var i=0; i < 2; i++){
 		player[i] = {
 			deck: {},
-			capturedCards: 0
+			capturedCards: 0,
+			usedCards: []
 		}
 	}
 }
@@ -321,6 +346,7 @@ function convertPromptedCard(curPlayer, card){
 			selectedCard = curPlayer.deck[4];
 			break;
 		}
+		curPlayer.usedCards.push(card);
 		return selectedCard;
 }
 
