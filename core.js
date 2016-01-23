@@ -252,7 +252,6 @@ while(board.emptyCells > 5){
 	//  selectedCard = undefined;
 	// 	selectedCell = undefined;
 	// }
-		
 }
 
 outcome(player[0].capturedCards, player[1].capturedCards);
