@@ -213,6 +213,10 @@ var player = {},
 //Game flow
 generatePlayers();
 assignCards();
+
+//TODO: Currently looping to four times for testing purposes, 
+// eventually update to use of full board;
+// Note: Can refactor emptyCells and usedCells and remove a variable 
 while(board.emptyCells > 5){
 	curPlayer = turnEven ? player[0]: player[1];
 	cardAvailable = false;
@@ -328,7 +332,6 @@ function renderHand(playerIndex){
 }	
 
 function convertPromptedCard(curPlayer, card){
-	console.log(card);
 	switch(card){
 		case '0':
 			selectedCard = curPlayer.deck[0];
